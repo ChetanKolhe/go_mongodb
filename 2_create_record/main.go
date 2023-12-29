@@ -1,0 +1,41 @@
+package main
+
+import (
+	"context"
+	"fmt"
+	"log"
+
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
+)
+
+func main() {
+	fmt.Println("MongoDb connection ")
+
+	// crednetial := options.Credential{
+	// 	AuthMechanism: "SCRAM-SHA-1",
+	// 	AuthSource:    "test",
+	// 	Username:      "chetan",
+	// 	Password:      "chetan",
+	// }
+	// clientOption := options.Client().ApplyURI("mongodb://127.0.0.1:27017").SetAuth(crednetial)
+
+	// Setting up clint option
+	clientOption := options.Client().ApplyURI("mongodb://127.0.0.1:27017")
+
+	client, _ := mongo.Connect(context.TODO(), clientOption)
+
+	err := client.Ping(context.TODO(), nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println("MongoDb connection successful")
+
+	err = client.Disconnect(context.TODO())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+}
